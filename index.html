@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <title>Bot</title>
+  <head>
+    <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Nd2-ZYP_t98EExxAGiaAkrCAT-RsCrD-56b2CPWqCUhHBj4NbhA4jkJ7Yh4196sVVEotTP_mS6f1zLcNa4XPm4sU5LL4I_iuL6ylT4YYejy6Jgtt5pYRLK_N-JuA-Any" charset="UTF-8"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      body {
+        background-color: #14094E;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      h2 {
+        display: inline-block;
+        font-size: 2em;
+        margin: 0;
+        padding: 14px;
+        color: white;
+      }
+      h4 {
+        padding-top:20;
+        padding-bottom: 0;
+        color: white;
+      }
+      #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid black;
+        font-size: 17px;
+      }
+      .userText {
+        color: white;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText span {
+        background-color: black;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .botText {
+        color: white;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #4169e1;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 82%;
+        margin-top:15px;
+        border: 1px solid green;
+        background-image: linear-gradient(180deg,lightblue,white);
+        background-position: center;
+        background-repeat: repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <h2>
+      NLTK and Flask Chatbot!
+    </h2>
+    <br>
+    <h4>Keep the text short and use keywords. If you want to exit, type Bye or Thank you!</h4>
+    </center>
+    <div class="boxed">
+        <div id="chatbox">
+          <p class="botText">
+            <span>Hi! Let's Talk! </span>
+          </p>
+        </div>
+        <div id="userInput">
+          <input id="textInput" type="text" name="user_response" placeholder="Message" />
+        </div>
+      </div>
+      <script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              .scrollIntoView({ block: "start", behavior: "smooth" });
+          });
+        }
+        $("#textInput").keypress(function(e) {
+          if (e.which == 13) {
+            getBotResponse();
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
